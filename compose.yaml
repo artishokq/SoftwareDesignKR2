@@ -1,0 +1,26 @@
+﻿services:
+  file-storage:
+    build:
+      context: ./FileStoringService
+      dockerfile: Dockerfile
+    ports:
+      - "5101:80"
+
+  file-analisys:
+    build:
+      context: ./FileAnalisysService
+      dockerfile: Dockerfile
+    ports:
+      - "5102:80"
+    depends_on:
+      - file-storage
+
+  api-gateway:
+    build:
+      context: ./APIGateway
+      dockerfile: Dockerfile
+    ports:
+      - "5200:80"
+    depends_on:
+      - file-storage
+      - file-analisys
